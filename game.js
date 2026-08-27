@@ -28,6 +28,10 @@ const PIECES = [
 
 const LINE_SCORES = [0, 100, 300, 500, 800];
 
+function dropIntervalForLevel(lvl) {
+  return Math.max(100, 1000 - (lvl - 1) * 90);
+}
+
 const canvas = document.getElementById('board');
 const ctx = canvas.getContext('2d');
 const nextCanvas = document.getElementById('next-canvas');
@@ -39,8 +43,18 @@ const overlay = document.getElementById('overlay');
 const overlayTitle = document.getElementById('overlay-title');
 const overlayScore = document.getElementById('overlay-score');
 const restartBtn = document.getElementById('restart-btn');
+const gameoverBox = document.getElementById('gameover-box');
+const pauseBox = document.getElementById('pause-box');
+const pauseMain = document.getElementById('pause-main');
+const pauseControls = document.getElementById('pause-controls');
+const resumeBtn = document.getElementById('resume-btn');
+const pauseRestartBtn = document.getElementById('pause-restart-btn');
+const showControlsBtn = document.getElementById('show-controls-btn');
+const backBtn = document.getElementById('back-btn');
+const startLevelSelect = document.getElementById('start-level-select');
 
 let board, current, next, score, lines, level, paused, gameOver, lastTime, dropAccum, dropInterval, animId;
+let startLevel = 1;
 
 function createBoard() {
   return Array.from({ length: ROWS }, () => new Array(COLS).fill(0));
@@ -107,7 +121,7 @@ function clearLines() {
     lines += cleared;
     score += (LINE_SCORES[cleared] || 0) * level;
     level = Math.floor(lines / 10) + 1;
-    dropInterval = Math.max(100, 1000 - (level - 1) * 90);
+    dropInterval = dropIntervalForLevel(level);
     updateHUD();
   }
 }
@@ -221,22 +235,46 @@ function drawNext() {
 function endGame() {
   gameOver = true;
   cancelAnimationFrame(animId);
+  pauseBox.classList.add('hidden');
+  gameoverBox.classList.remove('hidden');
   overlayTitle.textContent = 'GAME OVER';
   overlayScore.textContent = `Puntuación: ${score.toLocaleString()}`;
   overlay.classList.remove('hidden');
+}
+
+function showPauseView(view) {
+  if (view === 'controls') {
+    pauseMain.classList.add('hidden');
+    pauseControls.classList.remove('hidden');
+  } else {
+    pauseControls.classList.add('hidden');
+    pauseMain.classList.remove('hidden');
+  }
+}
+
+function openPauseMenu() {
+  showPauseView('main');
+  gameoverBox.classList.add('hidden');
+  pauseBox.classList.remove('hidden');
+  overlay.classList.remove('hidden');
+}
+
+function closePauseMenu() {
+  overlay.classList.add('hidden');
+  pauseBox.classList.add('hidden');
+  if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
 }
 
 function togglePause() {
   if (gameOver) return;
   paused = !paused;
   if (!paused) {
+    closePauseMenu();
     lastTime = performance.now();
     loop(lastTime);
   } else {
     cancelAnimationFrame(animId);
-    overlayTitle.textContent = 'PAUSA';
-    overlayScore.textContent = '';
-    overlay.classList.remove('hidden');
+    openPauseMenu();
   }
 }
 
@@ -257,25 +295,29 @@ function loop(ts) {
 }
 
 function init() {
+  if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
   board = createBoard();
   score = 0;
   lines = 0;
-  level = 1;
+  level = startLevel;
   paused = false;
   gameOver = false;
-  dropInterval = 1000;
+  dropInterval = dropIntervalForLevel(level);
   dropAccum = 0;
   lastTime = performance.now();
   next = randomPiece();
   spawn();
   updateHUD();
   overlay.classList.add('hidden');
+  pauseBox.classList.add('hidden');
+  gameoverBox.classList.remove('hidden');
+  showPauseView('main');
   cancelAnimationFrame(animId);
   animId = requestAnimationFrame(loop);
 }
 
 document.addEventListener('keydown', e => {
-  if (e.code === 'KeyP') { togglePause(); return; }
+  if (e.code === 'KeyP' || e.code === 'Escape') { togglePause(); return; }
   if (paused || gameOver) return;
   switch (e.code) {
     case 'ArrowLeft':
@@ -300,5 +342,13 @@ document.addEventListener('keydown', e => {
 });
 
 restartBtn.addEventListener('click', init);
+
+resumeBtn.addEventListener('click', togglePause);
+pauseRestartBtn.addEventListener('click', init);
+showControlsBtn.addEventListener('click', () => showPauseView('controls'));
+backBtn.addEventListener('click', () => showPauseView('main'));
+startLevelSelect.addEventListener('change', () => {
+  startLevel = parseInt(startLevelSelect.value, 10) || 1;
+});
 
 init();
