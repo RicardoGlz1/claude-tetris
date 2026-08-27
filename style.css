@@ -79,6 +79,17 @@ body {
   border-radius: 4px;
 }
 
+#theme-select {
+  background: #1a1a25;
+  color: #e0e0e0;
+  border: 1px solid #2a2a3a;
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 12px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
 /* ---- Controles ---- */
 .controls ul {
   list-style: none;
@@ -158,4 +169,100 @@ kbd {
 
 #restart-btn:hover {
   background: #9bbdff;
+}
+
+/* ---- Themes ---- */
+body.theme-neon {
+  background: #000000;
+  color: #d0fffb;
+}
+
+body.theme-neon .game-title {
+  color: #00fff2;
+  text-shadow: 0 0 10px rgba(0, 255, 242, 0.7);
+}
+
+body.theme-neon #board,
+body.theme-neon #next-canvas {
+  background: #030308;
+  border: 1px solid #0ff6e6;
+  box-shadow: 0 0 30px rgba(0, 255, 242, 0.35);
+}
+
+body.theme-neon .panel .value {
+  color: #00fff2;
+  text-shadow: 0 0 6px rgba(0, 255, 242, 0.6);
+}
+
+body.theme-neon #theme-select {
+  background: #030308;
+  border-color: #0ff6e6;
+  color: #d0fffb;
+}
+
+body.theme-pastel {
+  background: #f6f1f9;
+  color: #5a5468;
+}
+
+body.theme-pastel .game-title {
+  color: #b8a1d9;
+}
+
+body.theme-pastel #board,
+body.theme-pastel #next-canvas {
+  background: #fdfbff;
+  border: 1px solid #e0d4ec;
+  box-shadow: 0 0 20px rgba(180, 160, 200, 0.25);
+}
+
+body.theme-pastel .panel .value {
+  color: #b8a1d9;
+}
+
+body.theme-pastel .label {
+  color: #9d93ac;
+}
+
+body.theme-pastel .controls li {
+  color: #8a8296;
+}
+
+body.theme-pastel kbd {
+  background: #efe6f5;
+  border: 1px solid #ded0e8;
+  color: #6a6278;
+}
+
+body.theme-pastel #theme-select {
+  background: #fdfbff;
+  border-color: #e0d4ec;
+  color: #5a5468;
+}
+
+body.theme-pixel {
+  background: #101010;
+}
+
+body.theme-pixel .game-title {
+  color: #ffb74d;
+}
+
+body.theme-pixel #board,
+body.theme-pixel #next-canvas {
+  background: #181818;
+  border: 2px solid #444;
+  border-radius: 0;
+  box-shadow: none;
+  image-rendering: pixelated;
+}
+
+body.theme-pixel .panel .value {
+  color: #ffb74d;
+}
+
+body.theme-pixel #theme-select {
+  background: #181818;
+  border-color: #444;
+  border-radius: 0;
 }
