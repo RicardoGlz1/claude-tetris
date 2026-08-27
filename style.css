@@ -79,6 +79,139 @@ body {
   border-radius: 4px;
 }
 
+/* ---- Récords ---- */
+.highscore-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.highscore-row {
+  display: grid;
+  grid-template-columns: 16px 1fr auto;
+  gap: 4px;
+  font-size: 11px;
+  color: #ccc;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+.highscore-row.highscore-new {
+  background: rgba(122, 162, 247, 0.18);
+  color: #cddcff;
+}
+
+.hs-rank {
+  color: #555570;
+  font-weight: 700;
+}
+
+.hs-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hs-score {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 700;
+  color: #7aa2f7;
+  grid-column: 3;
+}
+
+.hs-detail {
+  grid-column: 1 / -1;
+  font-size: 10px;
+  color: #666680;
+}
+
+.highscore-empty {
+  font-size: 11px;
+  color: #555570;
+}
+
+.best-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 11px;
+  color: #888;
+}
+
+.best-stats strong {
+  color: #7aa2f7;
+}
+
+.pill-btn {
+  background: transparent;
+  color: #888;
+  border: 1px solid #3a3a5a;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.pill-btn:hover {
+  background: #22223a;
+  color: #ccc;
+}
+
+/* ---- Formulario de récord en overlay ---- */
+.highscore-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.highscore-form.hidden {
+  display: none;
+}
+
+.new-record-label {
+  font-size: 12px;
+  color: #ffd54f;
+  font-weight: 700;
+}
+
+#highscore-name-input {
+  background: #1a1a25;
+  border: 1px solid #3a3a5a;
+  border-radius: 6px;
+  padding: 8px 10px;
+  color: #e0e0e0;
+  font-size: 13px;
+  text-align: center;
+  width: 160px;
+}
+
+#highscore-name-input:focus {
+  outline: none;
+  border-color: #7aa2f7;
+}
+
+#highscore-save-btn {
+  background: #7aa2f7;
+  color: #0f0f17;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: background 0.15s;
+}
+
+#highscore-save-btn:hover {
+  background: #9bbdff;
+}
+
 /* ---- Controles ---- */
 .controls ul {
   list-style: none;
